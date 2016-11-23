@@ -1,0 +1,96 @@
+SSS MACRO CCX,DDX
+LOCAL BGAGAINS
+	MOV BL,20
+BGAGAINS:
+	MOV AH,0CH
+	MOV AL,08H
+	INT 10H
+	INC DX
+	DEC BL
+	JNZ BGAGAINS
+	ENDM
+
+	PUBLIC BG
+	EXTRN MYNAME
+.MODEL SMALL
+	.DATA
+	SLINE DW 0000
+	.CODE
+
+BG PROC
+;==================Ä£Ê½Ñ¡Ôñ=======================    
+    ;MOV AX,0012H
+    ;INT 10H
+;====================±³¾°É«=============================      
+    ;MOV AH,0BH
+    ;MOV BH,0
+	;MOV BL,07H
+	;INT 10H
+;====================±³¾°ºáÌõÎÆ=============================   	
+	MOV CX,0000
+	MOV DX,0000
+BGAGAINH:
+	MOV AH,0CH
+	MOV AL,08H
+	INT 10H
+	INC CX
+	CMP CX,640
+	JC BGAGAINH
+	MOV CX,0000
+	ADD DX,20
+	CMP DX,480
+	JC BGAGAINH
+	
+	MOV CX,0000
+	MOV DX,0001
+BGAGAIN1:
+	MOV AH,0CH
+	MOV AL,0FH
+	INT 10H
+	INC CX
+	CMP CX,640
+	JC BGAGAIN1
+	MOV CX,0000
+	ADD DX,20
+	CMP DX,480
+	JC BGAGAIN1
+	
+;======================±³¾°ÊúÌõÎÆ================================
+	
+	MOV CX,80
+	MOV DX,SLINE
+SAGAIN:
+	SSS	
+	ADD CX,80
+	MOV DX,SLINE
+	CMP CX,640
+	JC SAGAIN
+	MOV CX,80
+	ADD DX,40
+	MOV SLINE,DX
+	CMP DX,480
+	JC SAGAIN
+
+	MOV SLINE,20
+	MOV CX,40
+	MOV DX,SLINE
+SAGAIN1:
+	SSS	
+	ADD CX,80
+	MOV DX,SLINE
+	CMP CX,640
+	JC SAGAIN1
+	MOV CX,40
+	ADD DX,40
+	MOV SLINE,DX
+	CMP DX,480
+	JC SAGAIN1
+
+	RET
+BG ENDP
+	END
+
+
+
+
+
